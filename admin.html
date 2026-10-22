@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px 16px;
+      background: #0b1020;
+      color: #f5f7ff;
+      font-family: Arial, sans-serif;
+    }
+    main { max-width: 650px; margin: 35px auto; }
+    h1 { font-size: 30px; }
+    p { color: #b3bdd3; }
+    .panel {
+      background: #121a2d;
+      border: 1px solid #28324a;
+      border-radius: 14px;
+      padding: 22px;
+      margin: 18px 0;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border-radius: 8px;
+      font: inherit;
+    }
+    input, textarea {
+      background: #0b1020;
+      border: 1px solid #35405b;
+      color: white;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    button {
+      border: 0;
+      background: #83aaff;
+      color: #10182c;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .secondary { background: #27334d; color: white; }
+    .project {
+      padding: 14px 0;
+      border-bottom: 1px solid #28324a;
+      overflow-wrap: anywhere;
+    }
+    .hidden { display: none; }
+    #status { overflow-wrap: anywhere; }
+    a { color: #9dbdff; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Portfolio Admin</h1>
+  <p>Sign in to manage your portfolio projects.</p>
+
+  <section id="login" class="panel">
+    <h2>Admin login</h2>
+    <form id="loginForm">
+      <input id="email" type="email" placeholder="Your admin email" required>
+      <input id="password" type="password" placeholder="Your password" required>
+      <button type="submit">Sign in</button>
+    </form>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="panel">
+      <h2>Add a project</h2>
+      <form id="projectForm">
+        <input id="title" placeholder="Project title" required>
+        <textarea id="description" placeholder="Project description"></textarea>
+        <input id="image" type="url" placeholder="Image URL (optional)">
+        <input id="url" type="url" placeholder="Project link (optional)">
+        <button type="submit">Save project</button>
+      </form>
+      <button id="logout" class="secondary" type="button">Sign out</button>
+    </div>
+    <div class="panel">
+      <h2>Your projects</h2>
+      <div id="projects"></div>
+    </div>
+  </section>
+
+  <p id="status" role="status"></p>
+  <p><a href="index.html">← View public portfolio</a></p>
+</main>
+
+<script>
+(async function () {
+  const status = document.getElementById("status");
+  const login = document.getElementById("login");
+  const dashboard = document.getElementById("dashboard");
+
+  if (!window.supabase || !window.SUPABASE_URL ||
+      !window.SUPABASE_PUBLISHABLE_KEY) {
+    status.textContent = "Connection settings could not be loaded.";
+    return;
+  }
+
+  const client = window.supabase.createClient(
+    window.SUPABASE_URL,
+    window.SUPABASE_PUBLISHABLE_KEY
+  );
+
+  function showMessage(message) {
+    status.textContent = message;
+  }
+
+  async function loadProjects() {
+    const { data, error } = await client
+      .from("projects")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      showMessage("Could not load projects: " + error.message);
+      return;
+    }
+
+    const list = document.getElementById("projects");
+    list.replaceChildren();
+
+    if (!data.length) {
+      list.textContent = "No projects added yet.";
+      return;
+    }
+
+    data.forEach(project => {
+      const item = document.createElement("div");
+      item.className = "project";
+
+      const heading = document.createElement("h3");
+      heading.textContent = project.title;
+
+      const description = document.createElement("p");
+      description.textContent = project.description || "";
+
+      const remove = document.createElement("button");
+      remove.className = "secondary";
+      remove.textContent = "Delete project";
+      remove.addEventListener("click", async () => {
+        if (!confirm("Delete this project?")) return;
+        const { error } = await client
+          .from("projects")
+          .delete()
+          .eq("id", project.id);
+
+        if (error) showMessage("Delete failed: " + error.message);
+        else {
+          showMessage("Project deleted.");
+          loadProjects();
+        }
+      });
+
+      item.append(heading, description, remove);
+      list.append(item);
+    });
+  }
+
+  async function refreshSession() {
+    const { data } = await client.auth.getSession();
+    const session = data.session;
+
+    login.classList.toggle("hidden", !!session);
+    dashboard.classList.toggle("hidden", !session);
+
+    if (session) await loadProjects();
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    showMessage("Signing in…");
+
+    const { error } = await client.auth.signInWithPassword({
+      email: document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value
+    });
+
+    if (error) {
+      showMessage("Sign-in failed: " + error.message);
+      return;
+    }
+
+    showMessage("Signed in.");
+    await refreshSession();
+  });
+
+  document.getElementById("projectForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    showMessage("Saving project…");
+
+    const project = {
+      title: document.getElementById("title").value.trim(),
+      description: document.getElementById("description").value.trim(),
+      image_url: document.getElementById("image").value.trim() || null,
+      project_url: document.getElementById("url").value.trim() || null
+    };
+
+    const { error } = await client.from("projects").insert(project);
+
+    if (error) {
+      showMessage("Could not save project: " + error.message);
+      return;
+    }
+
+    event.target.reset();
+    showMessage("Project saved.");
+    await loadProjects();
+  });
+
+  document.getElementById("logout").addEventListener("click", async () => {
+    await client.auth.signOut();
+    showMessage("Signed out.");
+    await refreshSession();
+  });
+
+  await refreshSession();
+})();
+</script>
+</body>
+</html>
