@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: #f5f7ff;
+      line-height: 1.7;
+    }
+
+    header {
+      padding: 22px 8%;
+      border-bottom: 1px solid #252d42;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo { font-size: 21px; font-weight: bold; }
+    .logo span { color: #79a8ff; }
+
+    nav a {
+      color: #c4cbe0;
+      text-decoration: none;
+      margin-left: 18px;
+      font-size: 14px;
+    }
+
+    main { max-width: 950px; margin: auto; padding: 75px 8%; }
+
+    .tag {
+      color: #91b5ff;
+      background: #172747;
+      display: inline-block;
+      padding: 6px 13px;
+      border-radius: 30px;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 8vw, 65px);
+      line-height: 1.12;
+      letter-spacing: -2px;
+      margin-bottom: 22px;
+    }
+
+    h1 span { color: #83aaff; }
+
+    .intro {
+      max-width: 580px;
+      color: #b3bdd3;
+      font-size: 17px;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      background: #83aaff;
+      color: #10182c;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    section { margin-top: 75px; }
+
+    h2 { font-size: 27px; margin-bottom: 18px; }
+
+    .card {
+      background: #121a2d;
+      border: 1px solid #28324a;
+      border-radius: 14px;
+      padding: 23px;
+      margin-bottom: 14px;
+    }
+
+    .card p { color: #b3bdd3; margin-top: 7px; }
+
+    footer {
+      text-align: center;
+      color: #8995ae;
+      padding: 28px 15px;
+      border-top: 1px solid #252d42;
+      font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+      header { padding: 18px 5%; }
+      nav a { margin-left: 9px; font-size: 12px; }
+      main { padding: 55px 6%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">My<span>Portfolio.</span></div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#goals">Goals</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="tag">MY JOURNEY STARTS HERE</div>
+
+    <h1>Learning today.<br>Building <span>tomorrow.</span></h1>
+
+    <p class="intro">
+      Welcome to my personal portfolio. I'm learning about technology,
+      software development and how to turn ideas into real projects.
+      This website is the beginning of my journey.
+    </p>
+
+    <a class="button" href="#about">Discover my journey →</a>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <div class="card">
+        <h3>A work in progress</h3>
+        <p>
+          I'm at the beginning of my journey into technology.
+          I'm using free tools to learn new skills, experiment with ideas,
+          and build things that can make a difference.
+        </p>
+      </div>
+    </section>
+
+    <section id="goals">
+      <h2>What I'm Working Towards</h2>
+      <div class="card">
+        <h3>01 — Software Development</h3>
+        <p>Learning to build websites, applications and useful digital tools.</p>
+      </div>
+      <div class="card">
+        <h3>02 — Technology & AI</h3>
+        <p>Exploring artificial intelligence and the future of technology.</p>
+      </div>
+      <div class="card">
+        <h3>03 — Building Ideas</h3>
+        <p>Turning what I learn into practical projects, one step at a time.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built with curiosity and free tools. © 2026
+  </footer>
+</body>
+</html>
