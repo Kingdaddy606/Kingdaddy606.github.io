@@ -4,855 +4,514 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f8f8f6">
-  <meta name="description" content="Explore my portfolio, work, and projects.">
-  <title>My Portfolio — Personal Website</title>
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="Personal portfolio, about me, and projects.">
+  <title>My Portfolio</title>
 
   <style>
     :root {
-      --bg: #f8f8f6;
-      --surface: #ffffff;
-      --text: #171717;
-      --muted: #686868;
-      --line: #e6e6e2;
-      --dark: #171717;
-      --max-width: 1160px;
+      --bg: #080808;
+      --panel: #111111;
+      --text: #f5f5f5;
+      --muted: #a1a1a1;
+      --line: #292929;
+      --white: #ffffff;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 85px;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: Inter, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
     }
 
-    a {
-      color: inherit;
-    }
-
-    img {
-      max-width: 100%;
-    }
+    a { color: inherit; }
 
     .container {
-      width: min(var(--max-width), 86%);
-      margin-inline: auto;
+      width: min(1080px, 90%);
+      margin: auto;
     }
 
-    /* Navigation */
-
-    .header {
-      background: rgba(248, 248, 246, 0.96);
-      border-bottom: 1px solid var(--line);
+    header {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 5;
+      background: rgba(8, 8, 8, .95);
+      border-bottom: 1px solid var(--line);
       backdrop-filter: blur(12px);
     }
 
-    .nav {
-      min-height: 76px;
+    nav {
+      min-height: 68px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 24px;
+      justify-content: space-between;
+      gap: 20px;
     }
 
     .logo {
+      color: var(--white);
+      font-weight: 800;
       text-decoration: none;
-      font-size: 21px;
-      font-weight: 750;
-      letter-spacing: -0.8px;
+      letter-spacing: 1px;
     }
 
     .nav-links {
       display: flex;
-      align-items: center;
-      gap: 30px;
+      gap: 22px;
+      flex-wrap: wrap;
     }
 
     .nav-links a {
-      text-decoration: none;
-      font-size: 13px;
       color: var(--muted);
-      transition: color 0.2s ease;
+      font-size: 14px;
+      text-decoration: none;
     }
 
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    /* Hero */
+    .nav-links a:hover { color: var(--white); }
 
     .hero {
-      padding: 105px 0 100px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      align-items: center;
-      gap: 65px;
+      min-height: 450px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 75px 0;
     }
 
     .eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
+      color: var(--muted);
       text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 12px;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 16px 0;
+      font-size: clamp(42px, 8vw, 82px);
+      line-height: 1.05;
+      letter-spacing: -3px;
+    }
+
+    h1 span { color: #999; }
+
+    .hero p {
+      max-width: 600px;
       color: var(--muted);
-    }
-
-    .hero h1 {
-      font-size: clamp(43px, 6vw, 72px);
-      line-height: 1.08;
-      letter-spacing: -3.5px;
-      font-weight: 750;
-      margin: 23px 0;
-      max-width: 620px;
-    }
-
-    .hero-copy {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 470px;
-      line-height: 1.9;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 30px;
+      font-size: 18px;
     }
 
     .button {
-      min-height: 46px;
-      padding: 11px 20px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      border: 1px solid var(--dark);
-      border-radius: 5px;
-      background: var(--dark);
-      color: white;
+      display: inline-block;
+      width: fit-content;
+      margin-top: 18px;
+      padding: 12px 20px;
+      background: var(--white);
+      color: #080808;
+      border: 1px solid var(--white);
+      border-radius: 4px;
+      font-weight: 700;
       text-decoration: none;
-      font-size: 13px;
-      font-weight: 600;
-      transition: opacity 0.2s ease, background 0.2s ease;
     }
 
     .button:hover {
-      opacity: 0.82;
-    }
-
-    .button-outline {
       background: transparent;
-      color: var(--text);
-      border-color: #d0d0cb;
+      color: var(--white);
     }
 
-    .hero-visual {
-      min-height: 360px;
-      overflow: hidden;
-      border-radius: 4px;
-      background: #e8e7e2;
-    }
+    section { padding: 70px 0; }
 
-    .hero-visual img {
-      display: block;
-      width: 100%;
-      height: 390px;
-      object-fit: cover;
-    }
-
-    .hero-placeholder {
-      height: 360px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #777;
-      font-size: 13px;
-      background: linear-gradient(135deg, #eeeee9, #dcdcd6);
-    }
-
-    /* About */
-
-    .section {
-      padding: 95px 0;
-      border-bottom: 1px solid var(--line);
+    .section-title {
+      margin: 0 0 28px;
+      font-size: clamp(28px, 5vw, 42px);
+      letter-spacing: -1px;
     }
 
     .about-grid {
       display: grid;
-      grid-template-columns: 1fr 0.9fr;
-      align-items: center;
-      gap: 80px;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+      gap: 45px;
+      align-items: start;
     }
 
-    .section-title {
-      font-size: clamp(32px, 4vw, 45px);
-      line-height: 1.2;
-      letter-spacing: -1.8px;
-      margin: 18px 0;
-      font-weight: 720;
+    .about-copy {
+      color: #c5c5c5;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
     }
 
-    .section-copy {
-      max-width: 530px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.9;
-    }
-
-    .qualities {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 32px;
-    }
-
-    .quality {
-      font-size: 12px;
-      color: #444;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .quality-mark {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #333;
-    }
-
-    .about-visual {
-      min-height: 300px;
-      border-radius: 4px;
+    .profile-frame {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
       overflow: hidden;
-      background: #e8e7e2;
     }
 
-    .about-visual img {
+    .profile-frame img {
       display: block;
       width: 100%;
-      height: 320px;
+      height: 100%;
       object-fit: cover;
     }
 
-    /* Projects */
-
-    .projects-section {
-      background: #f1f1ee;
-      padding: 95px 0 105px;
-    }
-
-    .section-heading {
+    .placeholder {
+      height: 100%;
       display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 25px;
-      margin-bottom: 38px;
-    }
-
-    .section-heading .section-title {
-      margin-bottom: 12px;
-    }
-
-    .project-intro {
-      max-width: 480px;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
       color: var(--muted);
-      font-size: 14px;
+      text-align: center;
     }
 
     .projects {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: #0c0c0c;
+    }
+
+    .project-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
     }
 
     .project-card {
-      background: var(--surface);
-      border: 1px solid #e7e7e3;
-      border-radius: 5px;
       overflow: hidden;
-      min-width: 0;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .project-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
     }
 
     .project-image {
       width: 100%;
-      height: 190px;
-      display: block;
+      aspect-ratio: 16 / 9;
       object-fit: cover;
-      background: #e8e8e4;
-      border-bottom: 1px solid var(--line);
+      display: block;
+      background: #202020;
     }
 
-    .project-image.hidden {
-      display: none;
-    }
-
-    .project-content {
-      padding: 23px;
-    }
-
-    .project-number {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: #8a8a84;
-      font-weight: 700;
-    }
+    .project-content { padding: 22px; }
 
     .project-content h3 {
-      font-size: 18px;
-      line-height: 1.4;
-      letter-spacing: -0.4px;
-      margin: 10px 0;
-      overflow-wrap: anywhere;
+      margin: 0 0 10px;
+      font-size: 22px;
     }
 
     .project-content p {
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.8;
       overflow-wrap: anywhere;
-      white-space: pre-wrap;
     }
 
     .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 20px;
-      font-size: 12px;
-      font-weight: 650;
-      text-decoration: none;
-      border-bottom: 1px solid #b8b8b2;
-      padding-bottom: 3px;
+      display: inline-block;
+      margin-top: 8px;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 4px;
     }
 
-    .project-link:hover {
-      border-color: var(--text);
-    }
-
-    #project-status {
+    .empty, .status {
       color: var(--muted);
-      font-size: 14px;
-      padding: 22px 0;
     }
 
-    .retry-button {
-      margin-top: 15px;
-      border: 1px solid #bbb;
-      background: transparent;
-      padding: 9px 15px;
-      border-radius: 4px;
-      color: var(--text);
-      cursor: pointer;
+    .contact-box {
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
     }
 
-    /* Contact */
-
-    .contact {
-      padding: 90px 0;
-      text-align: center;
-    }
-
-    .contact .section-title {
-      margin-top: 16px;
-    }
-
-    .contact p {
-      max-width: 480px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .contact .button {
-      margin-top: 25px;
-    }
-
-    /* Footer */
-
-    .footer {
-      background: #171717;
-      color: #fff;
+    footer {
       padding: 28px 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: 13px;
     }
 
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .footer-logo {
-      font-size: 15px;
-      font-weight: 650;
-    }
-
-    .footer p {
-      color: #b5b5b5;
-      font-size: 11px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 18px;
-    }
-
-    .footer-links a {
-      color: white;
-      font-size: 12px;
-      text-decoration: none;
-    }
-
-    a:focus-visible,
-    button:focus-visible {
-      outline: 2px solid #555;
-      outline-offset: 4px;
-    }
-
-    /* Mobile */
-
-    @media (max-width: 850px) {
-      .hero {
-        padding: 70px 0;
-      }
-
-      .hero-grid,
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 35px;
-      }
-
-      .hero-visual img {
-        height: 300px;
-      }
-
-      .hero-visual {
-        min-height: 0;
-      }
-
-      .about-grid {
-        gap: 30px;
-      }
-
-      .section,
-      .projects-section {
-        padding: 65px 0;
-      }
-
-      .projects {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-      }
-
-      .project-image {
-        height: 160px;
-      }
-
-      .project-content {
-        padding: 17px;
-      }
-
-      .section-heading {
-        display: block;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .container {
-        width: 90%;
-      }
-
-      .nav {
-        min-height: 68px;
-        gap: 12px;
-      }
-
-      .logo {
-        font-size: 18px;
-      }
-
-      .nav-links {
-        gap: 15px;
-      }
-
-      .nav-links a {
-        font-size: 12px;
-      }
-
-      .hero {
-        padding: 60px 0;
-      }
-
-      .hero h1 {
-        font-size: 45px;
-        letter-spacing: -2.3px;
-      }
-
-      .hero-copy {
-        font-size: 14px;
-      }
-
-      .hero-visual img {
-        height: 235px;
-      }
-
-      .section,
-      .projects-section {
-        padding: 58px 0;
-      }
-
-      .section-title {
-        font-size: 34px;
-      }
-
-      .projects {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      .project-image {
-        height: 210px;
-      }
-
-      .project-content {
-        padding: 21px;
-      }
-
-      .qualities {
-        gap: 13px;
-      }
-
-      .about-visual img {
-        height: 245px;
-      }
-
-      .contact {
-        padding: 65px 0;
-      }
-
-      .footer-inner {
+    @media (max-width: 650px) {
+      nav {
+        align-items: flex-start;
         flex-direction: column;
-        text-align: center;
-        gap: 12px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
+        justify-content: center;
+        padding: 15px 0;
       }
 
-      *, *::before, *::after {
-        transition: none !important;
+      .nav-links { gap: 14px; }
+
+      .about-grid, .project-grid {
+        grid-template-columns: 1fr;
       }
+
+      .profile-frame {
+        max-width: 340px;
+        aspect-ratio: 4 / 4;
+      }
+
+      h1 { letter-spacing: -1.5px; }
+
+      section { padding: 50px 0; }
     }
   </style>
 </head>
 
 <body>
-
-  <header class="header">
-    <div class="container nav">
-      <a class="logo" href="#home">My Portfolio<span>.</span></a>
-
-      <nav class="nav-links" aria-label="Main navigation">
+  <header>
+    <nav class="container">
+      <a class="logo" href="#home" id="navName">MY PORTFOLIO</a>
+      <div class="nav-links">
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
-      </nav>
-    </div>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
   </header>
 
   <main>
-    <!-- Hero -->
-    <section class="hero" id="home">
-      <div class="container hero-grid">
+    <section class="container hero" id="home">
+      <span class="eyebrow">Welcome to my portfolio</span>
+      <h1>Hi, I'm <span id="heroName">Your Name</span></h1>
+      <p id="heroHeadline">Creator &amp; Developer</p>
+      <a class="button" href="#projects">Explore My Work</a>
+    </section>
+
+    <section class="container" id="about">
+      <span class="eyebrow">A little about me</span>
+      <h2 class="section-title">About Me</h2>
+
+      <div class="about-grid">
         <div>
-          <p class="eyebrow">Hello, I'm a creator</p>
-
-          <h1>Build Something Meaningful.</h1>
-
-          <p class="hero-copy">
-            I create useful digital experiences, explore new ideas,
-            and turn concepts into real projects. Take a look at
-            what I've been working on.
-          </p>
-
-          <div class="hero-actions">
-            <a class="button" href="#projects">
-              Explore My Work <span aria-hidden="true">↗</span>
-            </a>
-
-            <a class="button button-outline" href="#about">
-              About Me
-            </a>
-          </div>
+          <h3 id="aboutName">Your Name</h3>
+          <p class="about-copy" id="aboutBio">Welcome to my portfolio. My story and introduction will appear here when saved in the admin dashboard.</p>
         </div>
 
-        <div class="hero-visual">
-          <div class="hero-placeholder">
-            A little space for big ideas.
-          </div>
+        <div class="profile-frame" id="profileFrame">
+          <div class="placeholder">Your profile photo will appear here.</div>
         </div>
       </div>
     </section>
 
-    <!-- About -->
-    <section class="section" id="about">
-      <div class="container about-grid">
-        <div>
-          <p class="eyebrow">A little about me</p>
-
-          <h2 class="section-title">
-            Turning Ideas Into Real Projects.
-          </h2>
-
-          <p class="section-copy">
-            I'm someone who enjoys learning, solving problems,
-            and creating things that are useful. This portfolio
-            is where I share my progress, experiments, and work.
-          </p>
-
-          <div class="qualities">
-            <div class="quality">
-              <span class="quality-mark"></span>
-              Clean Design
-            </div>
-
-            <div class="quality">
-              <span class="quality-mark"></span>
-              Creative Thinking
-            </div>
-
-            <div class="quality">
-              <span class="quality-mark"></span>
-              Continuous Learning
-            </div>
-          </div>
-        </div>
-
-        <div class="about-visual">
-          <div class="hero-placeholder">
-            Ideas, learning, and building.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dynamic Projects -->
-    <section class="projects-section" id="projects">
+    <section class="projects" id="projects">
       <div class="container">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Selected work</p>
-            <h2 class="section-title">Things I've Built.</h2>
-            <p class="project-intro">
-              A collection of projects, experiments, and ideas.
-              Each one represents another step forward.
-            </p>
-          </div>
+        <span class="eyebrow">Selected work</span>
+        <h2 class="section-title">My Projects</h2>
+        <div class="project-grid" id="projectGrid">
+          <p class="status">Loading projects...</p>
         </div>
-
-        <div id="project-status" role="status" aria-live="polite">
-          Loading projects...
-        </div>
-
-        <div class="projects" id="project-list"></div>
+        <p class="status" id="projectStatus" role="status"></p>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section class="contact" id="contact">
-      <div class="container">
-        <p class="eyebrow">Have an idea?</p>
-        <h2 class="section-title">Let's Make It Happen.</h2>
-        <p>
-          Thanks for taking the time to explore my work.
-          Feel free to get in touch when you'd like to connect.
-        </p>
+    <section class="container" id="contact">
+      <span class="eyebrow">Get in touch</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="contact-box">
+        <p>Thank you for visiting my portfolio.</p>
+        <p>You can add your contact details and social links to this section whenever you're ready.</p>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-logo">My Portfolio.</div>
-
-      <p>
-        © <span id="year"></span> My Portfolio.
-        All rights reserved.
-      </p>
-
-      <div class="footer-links">
-        <a href="#home">Back to top ↑</a>
-      </div>
+  <footer>
+    <div class="container">
+      <span id="footerName">My Portfolio</span>
+      <span> · © <span id="year"></span></span>
     </div>
   </footer>
 
-  <!-- Existing Supabase configuration -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Your existing Supabase configuration -->
   <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
+    (async function () {
+      "use strict";
 
-    const projectStatus = document.getElementById("project-status");
-    const projectList = document.getElementById("project-list");
+      document.getElementById("year").textContent =
+        new Date().getFullYear();
 
-    async function loadProjects() {
-      projectStatus.textContent = "Loading projects...";
-      projectList.replaceChildren();
+      const profileFrame = document.getElementById("profileFrame");
+      const projectGrid = document.getElementById("projectGrid");
+      const projectStatus = document.getElementById("projectStatus");
 
-      if (
-        !window.supabase ||
-        !window.SUPABASE_URL ||
-        !window.SUPABASE_PUBLISHABLE_KEY
-      ) {
-        projectStatus.textContent =
-          "We couldn't connect to the project service. Please refresh the page.";
-        return;
+      function setText(id, value) {
+        if (typeof value === "string" && value.trim()) {
+          document.getElementById(id).textContent = value;
+        }
       }
 
-      try {
-        const client = window.supabase.createClient(
-          window.SUPABASE_URL,
-          window.SUPABASE_PUBLISHABLE_KEY
-        );
+      function showPlaceholder(message) {
+        profileFrame.replaceChildren();
+        const placeholder = document.createElement("div");
+        placeholder.className = "placeholder";
+        placeholder.textContent = message;
+        profileFrame.appendChild(placeholder);
+      }
 
-        const { data, error } = await client
-          .from("projects")
-          .select("id, title, description, image_url, project_url")
-          .order("created_at", { ascending: false });
-
-        if (error) {
-          throw error;
-        }
-
-        if (!data || data.length === 0) {
-          projectStatus.textContent =
-            "No projects yet. Check back soon.";
+      function showProfilePhoto(url) {
+        if (!url || typeof url !== "string") {
+          showPlaceholder("Your profile photo will appear here.");
           return;
         }
 
-        projectStatus.textContent = "";
-
-        data.forEach((project, index) => {
-          const card = document.createElement("article");
-          card.className = "project-card";
-
-          if (project.image_url) {
-            try {
-              const imageUrl = new URL(project.image_url);
-
-              if (
-                imageUrl.protocol === "https:" ||
-                imageUrl.protocol === "http:"
-              ) {
-                const image = document.createElement("img");
-                image.className = "project-image";
-                image.src = imageUrl.href;
-                image.alt = project.title || "Project image";
-                image.loading = "lazy";
-
-                image.onerror = function () {
-                  image.classList.add("hidden");
-                };
-
-                card.appendChild(image);
-              }
-            } catch (e) {
-              console.warn("Invalid project image URL");
-            }
+        try {
+          const parsed = new URL(url);
+          if (parsed.protocol !== "https:") {
+            showPlaceholder("Profile photo unavailable.");
+            return;
           }
 
-          const content = document.createElement("div");
-          content.className = "project-content";
+          const img = document.createElement("img");
+          img.alt = "Profile photo";
+          img.loading = "eager";
+          img.src = parsed.href;
+          img.onerror = function () {
+            showPlaceholder("The saved photo could not be loaded.");
+          };
 
-          const number = document.createElement("span");
-          number.className = "project-number";
-          number.textContent = "PROJECT " + String(index + 1).padStart(2, "0");
-          content.appendChild(number);
-
-          const title = document.createElement("h3");
-          title.textContent = project.title || "Untitled Project";
-          content.appendChild(title);
-
-          if (project.description) {
-            const description = document.createElement("p");
-            description.textContent = project.description;
-            content.appendChild(description);
-          }
-
-          if (project.project_url) {
-            try {
-              const url = new URL(project.project_url);
-
-              if (
-                url.protocol === "https:" ||
-                url.protocol === "http:"
-              ) {
-                const link = document.createElement("a");
-                link.className = "project-link";
-                link.href = url.href;
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
-                link.textContent = "View Project ↗";
-                content.appendChild(link);
-              }
-            } catch (e) {
-              console.warn("Invalid project URL");
-            }
-          }
-
-          card.appendChild(content);
-          projectList.appendChild(card);
-        });
-      } catch (error) {
-        console.error("Could not load projects:", error);
-
-        projectStatus.textContent =
-          "Projects couldn't be loaded. Check your connection and try again.";
-
-        const retry = document.createElement("button");
-        retry.className = "retry-button";
-        retry.textContent = "Try again";
-        retry.type = "button";
-        retry.addEventListener("click", loadProjects);
-        projectStatus.appendChild(document.createElement("br"));
-        projectStatus.appendChild(retry);
+          profileFrame.replaceChildren(img);
+        } catch (_) {
+          showPlaceholder("Profile photo unavailable.");
+        }
       }
-    }
 
-    loadProjects();
+      function showProjectMessage(message) {
+        projectGrid.replaceChildren();
+        const p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = message;
+        projectGrid.appendChild(p);
+      }
+
+      function safeImageUrl(url) {
+        if (!url || typeof url !== "string") return "";
+        try {
+          const parsed = new URL(url);
+          return parsed.protocol === "https:" ? parsed.href : "";
+        } catch (_) {
+          return "";
+        }
+      }
+
+      function renderProject(project) {
+        const card = document.createElement("article");
+        card.className = "project-card";
+
+        const imageUrl = safeImageUrl(project.image_url);
+        if (imageUrl) {
+          const img = document.createElement("img");
+          img.className = "project-image";
+          img.src = imageUrl;
+          img.alt = project.title || "Project image";
+          img.loading = "lazy";
+          img.onerror = function () { img.remove(); };
+          card.appendChild(img);
+        }
+
+        const content = document.createElement("div");
+        content.className = "project-content";
+
+        const title = document.createElement("h3");
+        title.textContent = project.title || "Untitled project";
+        content.appendChild(title);
+
+        if (project.description) {
+          const description = document.createElement("p");
+          description.textContent = project.description;
+          content.appendChild(description);
+        }
+
+        const projectUrl = safeImageUrl(project.project_url);
+        if (projectUrl) {
+          const link = document.createElement("a");
+          link.className = "project-link";
+          link.href = projectUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "View Project ↗";
+          content.appendChild(link);
+        }
+
+        card.appendChild(content);
+        projectGrid.appendChild(card);
+      }
+
+      try {
+        if (!window.supabase ||
+            !window.SUPABASE_URL ||
+            !window.SUPABASE_ANON_KEY) {
+          throw new Error(
+            "Supabase configuration is missing. Check config.js."
+          );
+        }
+
+        const client = window.supabase.createClient(
+          window.SUPABASE_URL,
+          window.SUPABASE_ANON_KEY
+        );
+
+        // Load profile details and the saved photo URL.
+        const profileResult = await client
+          .from("site_profile")
+          .select("name, headline, bio, photo_url")
+          .eq("id", 1)
+          .maybeSingle();
+
+        if (profileResult.error) {
+          console.error("Profile loading error:", profileResult.error);
+          showPlaceholder("Profile photo could not be loaded.");
+        } else if (profileResult.data) {
+          const profile = profileResult.data;
+
+          setText("navName", profile.name || "MY PORTFOLIO");
+          setText("heroName", profile.name || "Your Name");
+          setText("heroHeadline", profile.headline || "Creator & Developer");
+          setText("aboutName", profile.name || "Your Name");
+          setText("footerName", profile.name || "My Portfolio");
+
+          if (profile.bio && profile.bio.trim()) {
+            setText("aboutBio", profile.bio);
+          }
+
+          showProfilePhoto(profile.photo_url);
+          document.title = (profile.name || "My Portfolio") + " | Portfolio";
+        } else {
+          showPlaceholder("Your profile photo will appear here.");
+        }
+
+        // Load the existing projects.
+        const projectResult = await client
+          .from("projects")
+          .select("id, title, description, image_url, project_url, created_at")
+          .order("created_at", { ascending: false });
+
+        if (projectResult.error) {
+          console.error("Projects loading error:", projectResult.error);
+          showProjectMessage("Projects could not be loaded right now.");
+          projectStatus.textContent =
+            "Please check the Supabase projects table permissions.";
+        } else if (!projectResult.data || projectResult.data.length === 0) {
+          showProjectMessage("Projects will appear here when you add them in the admin dashboard.");
+        } else {
+          projectGrid.replaceChildren();
+          projectResult.data.forEach(renderProject);
+        }
+      } catch (error) {
+        console.error("Website setup error:", error);
+        showPlaceholder("Profile photo could not be loaded.");
+        showProjectMessage("Some website content could not be loaded.");
+        projectStatus.textContent =
+          "Please check config.js and the browser console if the problem continues.";
+      }
+    })();
   </script>
 </body>
 </html>
