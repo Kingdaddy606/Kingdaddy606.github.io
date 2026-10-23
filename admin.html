@@ -85,12 +85,12 @@
 <body>
 <main>
   <h1>Portfolio Admin</h1>
-  <p>Manage your profile, photos, and projects.</p>
+  <p>Manage your profile, contact details, photos, and projects.</p>
 
   <section id="login" class="panel">
     <h2>Admin login</h2>
     <form id="loginForm">
-      <label for="email">Email</label>
+      <label for="email">Admin email</label>
       <input id="email" type="email" placeholder="Your admin email" required>
       <label for="password">Password</label>
       <input id="password" type="password" placeholder="Your password" required>
@@ -100,8 +100,9 @@
 
   <section id="dashboard" class="hidden">
     <div class="panel">
-      <h2>About Me</h2>
-      <p>Edit the details visitors will see on your portfolio.</p>
+      <h2>About Me & Contact Details</h2>
+      <p>Edit the details visitors will see on your portfolio. Remember to tap Save About Me after making changes.</p>
+
       <form id="profileForm">
         <label for="profileName">Your name</label>
         <input id="profileName" placeholder="Your name" required>
@@ -111,6 +112,17 @@
 
         <label for="bio">Your biography</label>
         <textarea id="bio" placeholder="Tell visitors a little about yourself"></textarea>
+
+        <h3>Contact Settings</h3>
+
+        <label for="contactEmail">Your contact email</label>
+        <input id="contactEmail" type="email" placeholder="you@example.com">
+
+        <label for="contactMessage">Contact section message</label>
+        <textarea id="contactMessage" placeholder="Have a project or idea? Feel free to get in touch."></textarea>
+
+        <label for="linkedinUrl">LinkedIn profile URL</label>
+        <input id="linkedinUrl" type="url" placeholder="https://www.linkedin.com/in/your-profile">
 
         <label for="mainPhoto">Main profile photo</label>
         <input id="mainPhoto" type="file" accept="image/*">
@@ -133,12 +145,16 @@
       <form id="projectForm">
         <label for="title">Project title</label>
         <input id="title" placeholder="Project title" required>
+
         <label for="description">Description</label>
         <textarea id="description" placeholder="Project description"></textarea>
+
         <label for="image">Project image URL (optional)</label>
         <input id="image" type="url" placeholder="https://...">
+
         <label for="url">Project link (optional)</label>
         <input id="url" type="url" placeholder="https://...">
+
         <button type="submit">Save project</button>
       </form>
     </div>
@@ -173,7 +189,7 @@
 
   if (!window.supabase || !window.SUPABASE_URL ||
       !window.SUPABASE_PUBLISHABLE_KEY) {
-    status.textContent = "Connection settings could not be loaded.";
+    status.textContent = "Connection settings could not be loaded. Check config.js.";
     return;
   }
 
@@ -199,6 +215,7 @@
     const safeUrl = url ? safeImageUrl(url) : null;
     photoUrl = safeUrl;
     mainPreview.classList.toggle("hidden", !safeUrl);
+
     if (safeUrl) mainPreview.src = safeUrl;
     else mainPreview.removeAttribute("src");
   }
@@ -222,10 +239,11 @@
       remove.type = "button";
       remove.className = "secondary small-button";
       remove.textContent = "Remove from gallery";
+
       remove.addEventListener("click", () => {
         galleryUrls.splice(index, 1);
         displayGallery();
-        showMessage("Photo removed from the gallery list. Save About Me to confirm.");
+        showMessage("Photo removed from the gallery list. Tap Save About Me to confirm.");
       });
 
       item.append(img, remove);
@@ -266,7 +284,7 @@
   async function loadProfile() {
     const { data, error } = await client
       .from("site_profile")
-      .select("name, headline, bio, photo_url, gallery_urls")
+      .select("name, headline, bio, photo_url, gallery_urls, email, contact_message, linkedin_url")
       .eq("id", 1)
       .maybeSingle();
 
@@ -275,25 +293,56 @@
       return;
     }
 
-    if (!data) return;
+    if (!data) {
+      showMessage("No profile row found in site_profile.");
+      return;
+    }
 
     document.getElementById("profileName").value = data.name || "";
     document.getElementById("headline").value = data.headline || "";
     document.getElementById("bio").value = data.bio || "";
 
+    document.getElementById("contactEmail").value = data.email || "";
+    document.getElementById("contactMessage").value =
+      data.contact_message || "";
+    document.getElementById("linkedinUrl").value =
+      data.linkedin_url || "";
+
     displayMainPhoto(data.photo_url || null);
+
     galleryUrls = Array.isArray(data.gallery_urls)
       ? data.gallery_urls.filter(url => typeof url === "string")
       : [];
+
     displayGallery();
   }
 
   async function saveProfile() {
+    const email = document.getElementById("contactEmail").value.trim();
+    const linkedinUrl = document.getElementById("linkedinUrl").value.trim();
+
+    if (linkedinUrl) {
+      try {
+        const parsed = new URL(linkedinUrl);
+        if (parsed.protocol !== "https:" ||
+            !parsed.hostname.toLowerCase().endsWith("linkedin.com")) {
+          showMessage("Please enter a valid HTTPS LinkedIn profile URL.");
+          return false;
+        }
+      } catch {
+        showMessage("Please enter a valid LinkedIn profile URL.");
+        return false;
+      }
+    }
+
     const profile = {
       id: 1,
       name: document.getElementById("profileName").value.trim(),
       headline: document.getElementById("headline").value.trim(),
       bio: document.getElementById("bio").value.trim(),
+      email: email,
+      contact_message: document.getElementById("contactMessage").value.trim(),
+      linkedin_url: linkedinUrl,
       photo_url: photoUrl,
       gallery_urls: galleryUrls,
       updated_at: new Date().toISOString()
@@ -304,6 +353,8 @@
       return false;
     }
 
+    showMessage("Saving your profile and contact details…");
+
     const { error } = await client
       .from("site_profile")
       .upsert(profile, { onConflict: "id" });
@@ -313,7 +364,7 @@
       return false;
     }
 
-    showMessage("About Me saved successfully.");
+    showMessage("About Me and contact details saved successfully.");
     return true;
   }
 
@@ -348,7 +399,9 @@
 
       const remove = document.createElement("button");
       remove.className = "secondary";
+      remove.type = "button";
       remove.textContent = "Delete project";
+
       remove.addEventListener("click", async () => {
         if (!confirm("Delete this project?")) return;
 
@@ -357,8 +410,9 @@
           .delete()
           .eq("id", project.id);
 
-        if (error) showMessage("Delete failed: " + error.message);
-        else {
+        if (error) {
+          showMessage("Delete failed: " + error.message);
+        } else {
           showMessage("Project deleted.");
           await loadProjects();
         }
@@ -371,6 +425,7 @@
 
   async function refreshSession() {
     const { data, error } = await client.auth.getSession();
+
     if (error) showMessage("Could not check sign-in status.");
 
     const session = data && data.session;
@@ -403,7 +458,15 @@
 
   mainPhotoInput.addEventListener("change", () => {
     const file = mainPhotoInput.files[0];
+
     if (file) {
+      if (!file.type.startsWith("image/") ||
+          file.size > 5 * 1024 * 1024) {
+        mainPhotoInput.value = "";
+        showMessage("Choose an image that is 5 MB or smaller.");
+        return;
+      }
+
       mainPreview.src = URL.createObjectURL(file);
       mainPreview.classList.remove("hidden");
     }
@@ -411,6 +474,7 @@
 
   document.getElementById("uploadMain").addEventListener("click", async () => {
     const file = mainPhotoInput.files[0];
+
     if (!file) {
       showMessage("Please choose a main photo first.");
       return;
@@ -434,8 +498,19 @@
 
   document.getElementById("uploadGallery").addEventListener("click", async () => {
     const files = Array.from(galleryInput.files || []);
+
     if (!files.length) {
       showMessage("Please select one or more gallery photos first.");
+      return;
+    }
+
+    const invalidFile = files.find(file =>
+      !file.type.startsWith("image/") ||
+      file.size > 5 * 1024 * 1024
+    );
+
+    if (invalidFile) {
+      showMessage("Every selected file must be an image of 5 MB or smaller.");
       return;
     }
 
@@ -455,7 +530,7 @@
     } catch (error) {
       displayGallery();
       showMessage("Photo upload failed: " + error.message +
-        " Any photos already uploaded may still be in storage.");
+        " Photos uploaded before the error may still be in storage.");
     } finally {
       button.disabled = false;
     }
@@ -490,7 +565,13 @@
   });
 
   document.getElementById("logout").addEventListener("click", async () => {
-    await client.auth.signOut();
+    const { error } = await client.auth.signOut();
+
+    if (error) {
+      showMessage("Could not sign out: " + error.message);
+      return;
+    }
+
     showMessage("Signed out.");
     await refreshSession();
   });
@@ -499,4 +580,5 @@
 })();
 </script>
 </body>
-</html>
+  </html>
+      
