@@ -4,38 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080808">
-  <meta name="description" content="My personal portfolio and projects">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Personal portfolio, about me, and projects.">
   <title>My Portfolio</title>
 
   <style>
     :root {
-      --bg: #080808;
-      --panel: #111111;
-      --text: #f5f5f5;
-      --muted: #a1a1a1;
-      --line: #292929;
+      --bg: #ffffff;
+      --panel: #f7f7f7;
+      --text: #151515;
+      --muted: #666666;
+      --line: #e5e5e5;
+      --white: #ffffff;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
-    a {
-      color: inherit;
-    }
+    a { color: inherit; }
 
     .container {
       width: min(1080px, 90%);
@@ -46,12 +41,13 @@
       position: sticky;
       top: 0;
       z-index: 5;
-      background: rgba(8, 8, 8, 0.96);
+      background: rgba(255, 255, 255, 0.96);
       border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
     }
 
     nav {
-      min-height: 68px;
+      min-height: 70px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -66,7 +62,7 @@
 
     .nav-links {
       display: flex;
-      gap: 22px;
+      gap: 24px;
       flex-wrap: wrap;
     }
 
@@ -77,20 +73,21 @@
     }
 
     .nav-links a:hover {
-      color: white;
+      color: #000;
     }
 
     .hero {
-      min-height: 440px;
+      min-height: 430px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-top: 70px;
-      padding-bottom: 70px;
+      align-items: flex-start;
+      padding-top: 75px;
+      padding-bottom: 75px;
     }
 
     .eyebrow {
-      color: var(--muted);
+      color: #777;
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 3px;
@@ -99,14 +96,12 @@
     h1 {
       max-width: 850px;
       margin: 16px 0;
-      font-size: clamp(42px, 8vw, 82px);
+      font-size: clamp(42px, 8vw, 78px);
       line-height: 1.08;
       letter-spacing: -3px;
     }
 
-    h1 span {
-      color: #999;
-    }
+    h1 span { color: #777; }
 
     .hero p {
       max-width: 620px;
@@ -118,28 +113,28 @@
       display: inline-block;
       width: fit-content;
       margin-top: 18px;
-      padding: 12px 20px;
-      background: white;
-      color: #080808;
-      border: 1px solid white;
+      padding: 12px 22px;
+      background: #111;
+      color: #fff;
+      border: 1px solid #111;
       border-radius: 4px;
-      font-weight: bold;
+      font-weight: 700;
       text-decoration: none;
+      transition: background .2s, color .2s;
     }
 
     .button:hover {
-      background: transparent;
-      color: white;
+      background: #fff;
+      color: #111;
     }
 
-    section {
-      padding: 70px 0;
-    }
+    section { padding: 70px 0; }
 
     .section-title {
       margin: 0 0 28px;
-      font-size: clamp(28px, 5vw, 42px);
+      font-size: clamp(29px, 5vw, 42px);
       letter-spacing: -1px;
+      line-height: 1.2;
     }
 
     .about-grid {
@@ -150,7 +145,7 @@
     }
 
     .about-copy {
-      color: #c5c5c5;
+      color: #555;
       white-space: pre-line;
       overflow-wrap: anywhere;
     }
@@ -158,16 +153,16 @@
     .profile-frame {
       width: 100%;
       aspect-ratio: 4 / 5;
-      overflow: hidden;
-      background: var(--panel);
+      background: #f0f0f0;
       border: 1px solid var(--line);
       border-radius: 8px;
+      overflow: hidden;
     }
 
     .profile-frame img {
+      display: block;
       width: 100%;
       height: 100%;
-      display: block;
       object-fit: cover;
     }
 
@@ -178,12 +173,12 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      color: var(--muted);
+      color: #777;
       text-align: center;
     }
 
     .projects {
-      background: #0c0c0c;
+      background: #f8f8f8;
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
@@ -191,31 +186,35 @@
     .project-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
+      gap: 22px;
     }
 
     .project-card {
       overflow: hidden;
-      background: var(--panel);
+      background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, .06);
     }
 
     .project-image {
       width: 100%;
       aspect-ratio: 16 / 9;
-      display: block;
       object-fit: cover;
-      background: #202020;
+      display: block;
+      background: #eee;
     }
 
-    .project-content {
-      padding: 22px;
-    }
+    .project-content { padding: 22px; }
 
     .project-content h3 {
       margin: 0 0 10px;
-      font-size: 22px;
+      font-size: 21px;
     }
 
     .project-content p {
@@ -226,25 +225,23 @@
     .project-link {
       display: inline-block;
       margin-top: 8px;
-      font-weight: bold;
+      font-weight: 700;
+      text-decoration: underline;
       text-underline-offset: 4px;
     }
 
-    .status,
-    .empty {
-      color: var(--muted);
-    }
+    .status, .empty { color: var(--muted); }
 
     .contact-box {
-      padding: 30px;
-      background: var(--panel);
+      padding: 28px;
+      background: #fafafa;
       border: 1px solid var(--line);
       border-radius: 8px;
     }
 
     footer {
       padding: 28px 0;
-      color: var(--muted);
+      color: #777;
       border-top: 1px solid var(--line);
       font-size: 13px;
     }
@@ -257,9 +254,7 @@
         padding: 15px 0;
       }
 
-      .nav-links {
-        gap: 14px;
-      }
+      .nav-links { gap: 15px; }
 
       .about-grid,
       .project-grid {
@@ -271,13 +266,9 @@
         aspect-ratio: 4 / 4;
       }
 
-      h1 {
-        letter-spacing: -1.5px;
-      }
+      h1 { letter-spacing: -1.5px; }
 
-      section {
-        padding: 50px 0;
-      }
+      section { padding: 50px 0; }
     }
   </style>
 </head>
@@ -301,7 +292,7 @@
       <span class="eyebrow">Welcome to my portfolio</span>
       <h1>Hi, I'm <span id="heroName">Your Name</span></h1>
       <p id="heroHeadline">Creator &amp; Developer</p>
-      <a class="button" href="#projects">Explore My Work</a>
+      <a class="button" href="#projects">Explore My Work →</a>
     </section>
 
     <section class="container" id="about">
@@ -339,7 +330,7 @@
 
       <div class="contact-box">
         <p>Thank you for visiting my portfolio.</p>
-        <p>You can add your contact details and social links here when you are ready.</p>
+        <p>You can add your contact details and social links here when you're ready.</p>
       </div>
     </section>
   </main>
@@ -408,9 +399,7 @@
       }
 
       function safeHttpsUrl(url) {
-        if (!url || typeof url !== "string") {
-          return "";
-        }
+        if (!url || typeof url !== "string") return "";
 
         try {
           const parsed = new URL(url);
@@ -426,7 +415,6 @@
         const paragraph = document.createElement("p");
         paragraph.className = "empty";
         paragraph.textContent = message;
-
         projectGrid.appendChild(paragraph);
       }
 
@@ -442,10 +430,7 @@
           image.src = imageUrl;
           image.alt = project.title || "Project image";
           image.loading = "lazy";
-          image.onerror = function () {
-            image.remove();
-          };
-
+          image.onerror = function () { image.remove(); };
           card.appendChild(image);
         }
 
@@ -484,9 +469,7 @@
           !window.SUPABASE_URL ||
           !window.SUPABASE_PUBLISHABLE_KEY
         ) {
-          throw new Error(
-            "Supabase configuration is missing. Check config.js."
-          );
+          throw new Error("Supabase configuration is missing. Check config.js.");
         }
 
         const client = window.supabase.createClient(
@@ -494,7 +477,7 @@
           window.SUPABASE_PUBLISHABLE_KEY
         );
 
-        // Load the saved profile and public profile-photo URL.
+        // Load saved profile information and profile photo.
         const profileResult = await client
           .from("site_profile")
           .select("name, headline, bio, photo_url")
@@ -525,7 +508,7 @@
           showPlaceholder("Your profile photo will appear here.");
         }
 
-        // Load projects from the existing projects table.
+        // Load existing projects.
         const projectResult = await client
           .from("projects")
           .select("id, title, description, image_url, project_url, created_at")
@@ -549,10 +532,8 @@
         }
       } catch (error) {
         console.error("Website loading error:", error);
-
         showPlaceholder("Profile photo could not be loaded.");
         showProjectMessage("Website content could not be loaded.");
-
         projectStatus.textContent =
           error.message || "Please check your Supabase configuration.";
       }
